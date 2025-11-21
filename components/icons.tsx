@@ -137,7 +137,6 @@ export const InboxStackIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
-// New Icons for F&B
 export const ShoppingBagIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
@@ -178,5 +177,11 @@ export const PrinterIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 8.25h.75v.75h-.75v-.75ZM6.75 9.75h.75v.75h-.75v-.75ZM6.75 11.25h.75v.75h-.75v-.75ZM8.25 13.5h7.5m-7.5 1.5h7.5m-7.5 1.5h7.5m-7.5 1.5h7.5M6.75 21v-4.5h10.5V21m-10.5 0h10.5m-10.5 0v-1.5h10.5v1.5m-13.5-9v4.5h1.5v-4.5h-1.5Zm15 0v4.5h1.5v-4.5h-1.5Z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M6 12V8.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 .75.75V12m-12 0h12" />
+  </svg>
+);
+
+export const ArrowDownTrayIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
   </svg>
 );

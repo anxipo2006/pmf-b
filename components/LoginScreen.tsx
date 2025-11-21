@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import type { CurrentUser } from '../types';
 import { login } from '../services/attendanceService';
-import { LoadingIcon, UserGroupIcon } from './icons';
+import { LoadingIcon, UserGroupIcon, ArrowDownTrayIcon } from './icons';
 
 interface LoginScreenProps {
   onLogin: (user: CurrentUser) => void;
@@ -21,6 +22,39 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // PWA Install State
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [canInstall, setCanInstall] = useState(false);
+
+  useEffect(() => {
+      const handleBeforeInstallPrompt = (e: any) => {
+          // Prevent the mini-infobar from appearing on mobile
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          setDeferredPrompt(e);
+          // Update UI notify the user they can install the PWA
+          setCanInstall(true);
+      };
+
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+      return () => {
+          window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      };
+  }, []);
+
+  const handleInstallClick = async () => {
+      if (!deferredPrompt) return;
+      // Show the install prompt
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      // We've used the prompt, and can't use it again, throw it away
+      setDeferredPrompt(null);
+      setCanInstall(false);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,9 +137,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         />
       </div>
        <LoginButton />
-       <div className="text-center text-xs text-gray-500 dark:text-gray-400 pt-4 mt-4 border-t border-dashed dark:border-gray-600">
-          
-      </div>
     </form>
   );
 
@@ -139,6 +170,30 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 {activeTab === 'employee' ? renderEmployeeForm() : renderAdminForm()}
                 {error && <p className="text-sm text-red-500 text-center mt-4">{error}</p>}
             </div>
+        </div>
+
+        {/* Install App Section */}
+        <div className="border-t dark:border-gray-700 pt-4 mt-4">
+            {canInstall && (
+                <button
+                    onClick={handleInstallClick}
+                    className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none"
+                >
+                    <ArrowDownTrayIcon className="h-5 w-5" />
+                    Cài đặt ứng dụng
+                </button>
+            )}
+            {!canInstall && (
+                 <div className="text-center">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Để tải ứng dụng về điện thoại/máy tính:
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                        (Android/PC): Dùng Chrome {'>'} Cài đặt ứng dụng.<br/>
+                        (iPhone): Dùng Safari {'>'} Chia sẻ {'>'} Thêm vào MH chính.
+                    </p>
+                </div>
+            )}
         </div>
 
       </div>
